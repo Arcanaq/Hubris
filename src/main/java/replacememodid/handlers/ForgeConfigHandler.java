@@ -37,7 +37,8 @@ public class ForgeConfigHandler {
 		@MixinConfig.CompatHandling(
 				modid = "jei",
 				desired = true,
-				reason = "Mod needed for this Mixin to properly work"
+				reason = "Mod needed for this Mixin to properly work",
+				warnIngame = false //use this if the mixin is for an optional mod dependency that can be skipped with no issue if the mod is not present
 		)
 		public boolean enableJeiMixin = false;
 	}
