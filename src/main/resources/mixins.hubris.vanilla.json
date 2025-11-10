@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "hubris.mixin",
+  "refmap": "mixins.hubris.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "vanilla.EntityPlayerMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}
