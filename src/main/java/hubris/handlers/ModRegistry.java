@@ -2,8 +2,13 @@ package hubris.handlers;
 
 import hubris.capability.CapabilityHubris;
 import hubris.capability.CapabilityHubrisHandler;
+import hubris.misfortunes.Misfortune;
+import hubris.misfortunes.MisfortuneBedExplosion;
+import hubris.misfortunes.MisfortuneClipping;
+import hubris.misfortunes.MisfortuneExplosion;
 import hubris.potion.PotionClipping;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -32,6 +37,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import hubris.Hubris;
 import hubris.item.ItemExampleArmor;
 import hubris.recipe.RecipeExample;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryBuilder;
 
 import java.util.Objects;
 
@@ -46,6 +53,8 @@ public class ModRegistry {
         public static Item exampleBoots = new ItemExampleArmor("example_boots", EXAMPLE_ARMOR, 1, EntityEquipmentSlot.FEET);
         */
         public static PotionType potionClipping = new PotionType("clipping", new PotionEffect(PotionClipping.INSTANCE, 200)).setRegistryName(new ResourceLocation(Hubris.MODID, "clipping"));
+
+        public static IForgeRegistry<Misfortune> misfortuneRegistry;
 
         public static void init() {
 
@@ -78,17 +87,23 @@ public class ModRegistry {
         }
 
         @SubscribeEvent
-        public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event){
-                if (event.getEntityLiving().getActivePotionEffect(PotionClipping.INSTANCE)!=null){
-                        EntityLivingBase entity = event.getEntityLiving();
-                        PotionEffect effect = entity.getActivePotionEffect(PotionClipping.INSTANCE);
+        public static void registerMisfortuneEvent(RegistryEvent.Register<Misfortune> event){
+                event.getRegistry().register(MisfortuneClipping.INSTANCE);
+                event.getRegistry().register(MisfortuneExplosion.INSTANCE);
+                event.getRegistry().register(MisfortuneBedExplosion.INSTANCE);
+        }
 
-                        if (effect != null && effect.getDuration() <= 100 && !entity.collidedVertically){
-                                entity.fallDistance = 0;
-                                entity.removePotionEffect(PotionClipping.INSTANCE);
-                        }
-                        else
-                                entity.noClip = true;
-                }
+        @SubscribeEvent
+        public static void onNewRegistry(RegistryEvent.NewRegistry event){
+                misfortuneRegistry = new RegistryBuilder<Misfortune>()
+                        .setName(new ResourceLocation(Hubris.MODID, "misfortune_registry"))
+                        .setType(Misfortune.class)
+                        .create();
+        }
+
+        @SubscribeEvent
+        public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event){
+                EntityLivingBase entity = event.getEntityLiving();
+                if (entity.getActivePotionEffect(PotionClipping.INSTANCE)!=null) entity.noClip = true;
         }
 }

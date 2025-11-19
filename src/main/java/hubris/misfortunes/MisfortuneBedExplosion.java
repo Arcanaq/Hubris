@@ -4,17 +4,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class MisfortuneBedExplosion extends MisfortuneBase {
-    public MisfortuneBedExplosion() {
+public class MisfortuneBedExplosion extends Misfortune {
+    public static final MisfortuneBedExplosion INSTANCE = new MisfortuneBedExplosion();
 
+    public MisfortuneBedExplosion() {
+        super("misfortune_bed_explosion");
     }
 
-    public static void apply(EntityPlayer plr){
+    @Override
+    public void Apply(EntityPlayer plr){
+        super.Apply(plr);
         World world = plr.world;
-        BlockPos pos = plr.getPosition();
         BlockPos bedPos = plr.getBedLocation();
-        if (bedPos != null) {
-            world.createExplosion(null, bedPos.getX(), bedPos.getY(), bedPos.getZ(), 10, true);
-        }
+        world.createExplosion(null, bedPos.getX(), bedPos.getY(), bedPos.getZ(), 10, true);
     }
 }

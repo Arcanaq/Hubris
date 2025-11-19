@@ -1,21 +1,20 @@
 package hubris.handlers;
 
-import hubris.misfortunes.MisfortuneBedExplosion;
-import hubris.misfortunes.MisfortuneClipping;
+import hubris.misfortunes.Misfortune;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MisfortuneHandler {
-    static Random random = new Random();
+    private static final IForgeRegistry<Misfortune> registry = GameRegistry.findRegistry(Misfortune.class);
+    private static Random random = new Random();
+
     public static void ApplyMisfortune(EntityPlayer plr){
-        switch (random.nextInt(2)){
-            case 0:
-                MisfortuneBedExplosion.apply(plr);
-                break;
-            case 1:
-                MisfortuneClipping.apply(plr);
-                break;
-        }
+        List<Misfortune> misfortunes = new ArrayList<>(registry.getValuesCollection());
+        misfortunes.get(random.nextInt(misfortunes.size())).Apply(plr);
     }
 }
