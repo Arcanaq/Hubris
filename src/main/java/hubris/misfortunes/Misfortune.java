@@ -2,13 +2,8 @@ package hubris.misfortunes;
 
 import hubris.Hubris;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-import net.minecraftforge.registries.RegistryBuilder;
 
 public abstract class Misfortune extends IForgeRegistryEntry.Impl<Misfortune> {
     public String announcement;

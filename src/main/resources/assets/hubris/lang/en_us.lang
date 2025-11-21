@@ -1,10 +1,11 @@
-effects.hubris.example=Example
-potion.effect.example=Potion of Example
-splash_potion.effect.example=Splash Potion of Example
-lingering_potion.effect.example=Lingering Potion of Example
-tipped_arrow.effect.example=Tipped Arrow Potion of Example
+effects.hubris.clipping=Clipping
+potion.effect.clipping=Potion of Clipping
+splash_potion.effect.clipping=Splash Potion of Clipping
+lingering_potion.effect.clipping=Lingering Potion of Clipping
+tipped_arrow.effect.clipping=Tipped Arrow of Clipping
 
-item.example_helmet.name=Example Helmet
-item.example_chestplate.name=Example Chestplate
-item.example_leggings.name=Example Leggings
-item.example_boots.name=Example Boots
+effects.hubris.flammable=Flammability
+potion.effect.flammable=Potion of Flammability
+splash_potion.effect.flammable=Splash Potion of Flammability
+lingering_potion.effect.flammable=Lingering Potion of Flammability
+tipped_arrow.effect.flammable=Tipped Arrow of Flammability

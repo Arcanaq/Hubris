@@ -8,7 +8,7 @@ public class MisfortuneExplosion extends Misfortune {
     public static final MisfortuneExplosion INSTANCE = new MisfortuneExplosion();
 
     public MisfortuneExplosion() {
-        super("misfortune_explosion", "BOOM!");
+        super("misfortune_explosion");
     }
 
     @Override

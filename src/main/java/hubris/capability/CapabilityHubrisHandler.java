@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -20,8 +21,10 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import hubris.Hubris;
+import org.lwjgl.Sys;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -47,15 +50,16 @@ public class CapabilityHubrisHandler {
      */
     public static class EventHandler {
         static Random rand = new Random();
+
         @SubscribeEvent
         public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
             if(!Hubris.completedLoading) return; //only needed when other mods instantiate objects during startup that would get the capability (example: JEI creating ItemStacks)
-
-            if(event.getObject().hasCapability(CAP_HUBRIS, null)) return;
-
-            //Filter down as far as possible here, to only give those objects your capability that actually should have it
+            Entity entity = event.getObject();
+            if (entity.world.isRemote) return;
             if(!(event.getObject() instanceof EntityPlayer)) return;
-            event.addCapability(CAP_HUBRIS_KEY, new Provider(event.getObject() /*, various constructor parameters*/));
+            if(entity.hasCapability(CAP_HUBRIS, null)) return;
+
+            event.addCapability(CAP_HUBRIS_KEY, new Provider(entity /*, various constructor parameters*/));
         }
 
         @SubscribeEvent
@@ -69,37 +73,49 @@ public class CapabilityHubrisHandler {
 
         @SubscribeEvent
         public static void onAdvancement(AdvancementEvent event){
-            event.getEntity().getCapability(CAP_HUBRIS, null).changeHubris(.3);
+            EntityPlayer plr = event.getEntityPlayer();
+            if (plr == null) return;
+            if (!plr.hasCapability(CAP_HUBRIS, null)) return;
+            plr.getCapability(CAP_HUBRIS, null).changeHubris(.3);
         }
 
         @SubscribeEvent
         public static void onAttack(AttackEntityEvent event){
-            if (!(event.getEntity() instanceof EntityPlayer)) return;
-            event.getEntity().getCapability(CAP_HUBRIS, null).changeHubris(.1);
+            EntityPlayer plr = event.getEntityPlayer();
+            if (plr == null) return;
+            if (!plr.hasCapability(CAP_HUBRIS, null)) return;
+            plr.getCapability(CAP_HUBRIS, null).changeHubris(.1);
         }
 
         @SubscribeEvent
         public static void onHurt(LivingHurtEvent event){
-            if (!(event.getEntity() instanceof EntityPlayer)) return;
-            event.getEntity().getCapability(CAP_HUBRIS, null).changeHubris(-.1);
+            Entity entity = event.getEntity();
+            if (entity == null) return;
+            if (!(entity instanceof EntityPlayer)) return;
+            if (!entity.hasCapability(CAP_HUBRIS, null)) return;
+            entity.getCapability(CAP_HUBRIS, null).changeHubris(-.1);
         }
 
         @SubscribeEvent
         public static void onDeath(LivingDeathEvent event){
-            if (!(event.getEntity() instanceof EntityPlayer)) return;
-            event.getEntity().getCapability(CAP_HUBRIS, null).changeHubris(-1);
+            Entity entity = event.getEntity();
+            if (entity == null) return;
+            if (!(entity instanceof EntityPlayer)) return;
+            if (!entity.hasCapability(CAP_HUBRIS, null)) return;
+            entity.getCapability(CAP_HUBRIS, null).changeHubris(-1);
         }
 
         @SubscribeEvent
         public static void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
-            if (!(event.getEntity() instanceof EntityPlayer)) return;
-            EntityPlayer plr = (EntityPlayer) event.getEntity();
-            if (!(plr.hasCapability(CAP_HUBRIS, null))) return;
+            Entity entity = event.getEntity();
+            if (entity == null) return;
+            if (!(entity instanceof EntityPlayer)) return;
+            if (!entity.hasCapability(CAP_HUBRIS, null)) return;
             ICapabilityHubris cap = event.getEntity().getCapability(CAP_HUBRIS, null);
             if(cap == null) return;
             if ((rand.nextDouble()+.1) * 100 <= cap.getHubris()){
                 MisfortuneHandler.ApplyMisfortune((EntityPlayer) event.getEntity());
-                cap.changeHubris(-2);
+                cap.changeHubris(-2f);
             }
         }
     }
