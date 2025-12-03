@@ -27,10 +27,8 @@ public class Hubris {
 	
 	@Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        ModRegistry.init();
+        ModRegistry.preInit();
         Hubris.PROXY.preInit();
-
-        CapabilityHubrisHandler.registerCapability();
     }
 
     @Mod.EventHandler

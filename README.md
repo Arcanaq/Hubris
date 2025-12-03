@@ -10,7 +10,8 @@
 * Taking damage
 * Dying
 
-## HUBRIS causes a number of effects to the player...
-* i didnt come up with actual effects yet so right now either your bed explodes or you get a potion effect that makes you no clip out of the map :P 
+## HUBRIS inflicts a variety of consequences to the player...
+* Harmful potion effects
+* Spontaneous combustion (why)
 
 [Built from FermiumTemplateMod](https://github.com/FermiumModding/FermiumTemplateMod)
