@@ -1,6 +1,7 @@
 package hubris.handlers;
 
 import fermiumbooter.annotations.MixinConfig;
+import hubris.enums.EnumHudStyle;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -21,10 +22,25 @@ public class ForgeConfigHandler {
 
 	@MixinConfig(name = Hubris.MODID) //Needed on config classes that contain MixinToggles for those mixins to be added
 	public static class ServerConfig {
+		@Config.Comment("Minimum amount of HUBRIS needed to cause misfortune")
+		@Config.Name("Misfortune Threshold")
+		@Config.RangeDouble(min = 0)
+		public static double MisfortuneThreshold = 20;
 
-		@Config.Comment("Example server side config option")
-		@Config.Name("Example Server Option")
-		public boolean exampleServerOption = true;
+		@Config.Comment("Chance out of 1 for a misfortune to happen each tick")
+		@Config.Name("Misfortune Chance")
+		@Config.RangeDouble(min = 0, max = 1)
+		public static double MisfortuneChance = 0.05;
+
+		@Config.Comment("If non-zero, the chance of a misfortune will multiply by the amount of HUBRIS and this value")
+		@Config.Name("Dynamic Hubris")
+		@Config.RangeDouble(min = 0)
+		public static double DynHubris = 0.5;
+
+		@Config.Comment("Amount of HUBRIS removed when affected by a misfortune")
+		@Config.Name("Misfortune Diminishing Value")
+		@Config.RangeDouble(min = 0)
+		public static double MisfortuneDiminish = 2f;
 
 		@Config.Comment("Example Early Mixin Toggle Config")
 		@Config.Name("Enable Vanilla Player Mixin (Vanilla)")
@@ -44,10 +60,18 @@ public class ForgeConfigHandler {
 	}
 
 	public static class ClientConfig {
+		@Config.Name("Hud Style")
+		public static EnumHudStyle HudStyle = EnumHudStyle.LABEL;
 
-		@Config.Comment("Example client side config option")
-		@Config.Name("Example Client Option")
-		public boolean exampleClientOption = true;
+		@Config.Name("Hud X Position")
+		public static int HudX = 6;
+
+		@Config.Name("Hud Y Position")
+		public static int HudY = 6;
+
+		@Config.Comment("If enabled, hides the HUD when HUBRIS is 0")
+		@Config.Name("Dynamic HUD")
+		public static boolean DynHUD = true;
 	}
 
 	@Mod.EventBusSubscriber(modid = Hubris.MODID)

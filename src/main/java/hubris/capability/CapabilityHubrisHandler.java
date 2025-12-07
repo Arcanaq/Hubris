@@ -1,6 +1,8 @@
 package hubris.capability;
 
+import hubris.handlers.ForgeConfigHandler;
 import hubris.handlers.MisfortuneHandler;
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
@@ -113,9 +115,16 @@ public class CapabilityHubrisHandler {
             if (!entity.hasCapability(CAP_HUBRIS, null)) return;
             ICapabilityHubris cap = event.getEntity().getCapability(CAP_HUBRIS, null);
             if(cap == null) return;
-            if ((rand.nextDouble()+.1) * 100 <= cap.getHubris()){
-                MisfortuneHandler.ApplyMisfortune((EntityPlayer) event.getEntity());
-                cap.changeHubris(-2f);
+            double hubris = cap.getHubris();
+            if (hubris >= ForgeConfigHandler.ServerConfig.MisfortuneThreshold){
+                double val = rand.nextDouble();
+                if (ForgeConfigHandler.ServerConfig.DynHubris !=0){
+                    val*=hubris* ForgeConfigHandler.ServerConfig.DynHubris;
+                }
+                if (val <= ForgeConfigHandler.ServerConfig.MisfortuneChance) {
+                    MisfortuneHandler.ApplyMisfortune((EntityPlayer) event.getEntity());
+                    cap.changeHubris(-ForgeConfigHandler.ServerConfig.MisfortuneDiminish);
+                }
             }
         }
     }

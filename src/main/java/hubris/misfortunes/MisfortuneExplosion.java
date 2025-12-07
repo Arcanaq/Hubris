@@ -16,6 +16,6 @@ public class MisfortuneExplosion extends Misfortune {
         super.Apply(plr);
         World world = plr.world;
         BlockPos pos = plr.getPosition();
-        world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 10, true);
+        world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 3, true);
     }
 }

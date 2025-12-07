@@ -96,10 +96,8 @@ public class ModRegistry {
 
         @SubscribeEvent
         @SideOnly(Side.CLIENT)
-        public static void onRenderOverlay(RenderGameOverlayEvent event){
-                if (event.getType() == RenderGameOverlayEvent.ElementType.ALL){
-                        GuiHubrisHud.Render();
-                }
+        public static void onRenderOverlay(RenderGameOverlayEvent.Post event){
+                GuiHubrisHud.Render();
         }
 
         public static void registerPackets(){
