@@ -78,7 +78,7 @@ public class CapabilityHubrisHandler {
             EntityPlayer plr = event.getEntityPlayer();
             if (plr == null) return;
             if (!plr.hasCapability(CAP_HUBRIS, null)) return;
-            plr.getCapability(CAP_HUBRIS, null).changeHubris(.3);
+            plr.getCapability(CAP_HUBRIS, null).changeHubris(ForgeConfigHandler.ServerConfig.AdvancementIncrease);
         }
 
         @SubscribeEvent
@@ -86,7 +86,7 @@ public class CapabilityHubrisHandler {
             EntityPlayer plr = event.getEntityPlayer();
             if (plr == null) return;
             if (!plr.hasCapability(CAP_HUBRIS, null)) return;
-            plr.getCapability(CAP_HUBRIS, null).changeHubris(.1);
+            plr.getCapability(CAP_HUBRIS, null).changeHubris(ForgeConfigHandler.ServerConfig.DamageIncrease);
         }
 
         @SubscribeEvent
@@ -95,7 +95,7 @@ public class CapabilityHubrisHandler {
             if (entity == null) return;
             if (!(entity instanceof EntityPlayer)) return;
             if (!entity.hasCapability(CAP_HUBRIS, null)) return;
-            entity.getCapability(CAP_HUBRIS, null).changeHubris(-.1);
+            entity.getCapability(CAP_HUBRIS, null).changeHubris(-ForgeConfigHandler.ServerConfig.DamageDiminish);
         }
 
         @SubscribeEvent
@@ -104,7 +104,7 @@ public class CapabilityHubrisHandler {
             if (entity == null) return;
             if (!(entity instanceof EntityPlayer)) return;
             if (!entity.hasCapability(CAP_HUBRIS, null)) return;
-            entity.getCapability(CAP_HUBRIS, null).changeHubris(-1);
+            entity.getCapability(CAP_HUBRIS, null).changeHubris(-ForgeConfigHandler.ServerConfig.DeathDiminish);
         }
 
         @SubscribeEvent
@@ -126,6 +126,7 @@ public class CapabilityHubrisHandler {
                     cap.changeHubris(-ForgeConfigHandler.ServerConfig.MisfortuneDiminish);
                 }
             }
+            cap.changeHubris(-ForgeConfigHandler.ServerConfig.TickDiminish);
         }
     }
 

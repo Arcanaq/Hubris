@@ -30,17 +30,37 @@ public class ForgeConfigHandler {
 		@Config.Comment("Chance out of 1 for a misfortune to happen each tick")
 		@Config.Name("Misfortune Chance")
 		@Config.RangeDouble(min = 0, max = 1)
-		public static double MisfortuneChance = 0.05;
+		public static double MisfortuneChance = 0.025;
 
 		@Config.Comment("If non-zero, the chance of a misfortune will multiply by the amount of HUBRIS and this value")
 		@Config.Name("Dynamic Hubris")
 		@Config.RangeDouble(min = 0)
-		public static double DynHubris = 0.5;
+		public static double DynHubris = 1;
 
-		@Config.Comment("Amount of HUBRIS removed when affected by a misfortune")
+		@Config.Comment("Amount of HUBRIS added when completing an advancement or unlocking recipes")
+		@Config.Name("Advancement Increasing Value")
+		public static double AdvancementIncrease = 1f;
+
+		@Config.Comment("Amount of HUBRIS added when dealing damage")
+		@Config.Name("Damage Increasing Value")
+		public static double DamageIncrease = .75f;
+
+		@Config.Comment("Amount of HUBRIS removed when a misfortune is inflicted")
 		@Config.Name("Misfortune Diminishing Value")
 		@Config.RangeDouble(min = 0)
-		public static double MisfortuneDiminish = 2f;
+		public static double MisfortuneDiminish = 5f;
+
+		@Config.Comment("Amount of HUBRIS removed when taking damage")
+		@Config.Name("Damage Diminishing Value")
+		public static double DamageDiminish = .5f;
+
+		@Config.Comment("Amount of HUBRIS removed when dying")
+		@Config.Name("Death Diminishing Value")
+		public static double DeathDiminish = 5f;
+
+		@Config.Comment("Amount of HUBRIS removed each tick")
+		@Config.Name("Death Diminishing Value")
+		public static double TickDiminish = .05f;
 
 		@Config.Comment("Example Early Mixin Toggle Config")
 		@Config.Name("Enable Vanilla Player Mixin (Vanilla)")
